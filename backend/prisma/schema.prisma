@@ -1,0 +1,208 @@
+// ─────────────────────────────────────────────────
+// SCNVP — Prisma Schema
+// Matches the database design from docs/ARCHITECTURE.MD
+// ─────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── User ─────────────────────────────────────────
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String
+  role            UserRole  @default(STUDENT)
+  experienceLevel String?
+  projects        Project[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// ── Project ──────────────────────────────────────
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  cityName    String?
+  scale       ProjectScale
+  budget      Float?
+  status      ProjectStatus @default(DRAFT)
+  ownerId     String
+  owner       User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  network     Network?
+  snapshots   Snapshot[]
+  simulations Simulation[]
+  recommendations AIRecommendation[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("projects")
+}
+
+// ── Network (one per project) ────────────────────
+model Network {
+  id          String        @id @default(cuid())
+  projectId   String        @unique
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  nodes       NetworkNode[]
+  connections Connection[]
+  metadata    Json?
+
+  @@map("networks")
+}
+
+// ── Network Node ─────────────────────────────────
+model NetworkNode {
+  id        String     @id @default(cuid())
+  networkId String
+  network   Network    @relation(fields: [networkId], references: [id], onDelete: Cascade)
+  type      NodeType
+  label     String
+  posX      Float
+  posY      Float
+  posZ      Float?
+  config    Json?
+  status    NodeStatus @default(ACTIVE)
+  cost      Float?
+
+  @@map("network_nodes")
+}
+
+// ── Connection ───────────────────────────────────
+model Connection {
+  id        String   @id @default(cuid())
+  networkId String
+  network   Network  @relation(fields: [networkId], references: [id], onDelete: Cascade)
+  sourceId  String
+  targetId  String
+  bandwidth Int?
+  latency   Int?
+  linkType  LinkType
+  cost      Float?
+
+  @@map("connections")
+}
+
+// ── Snapshot ─────────────────────────────────────
+model Snapshot {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name      String
+  data      Json
+  createdAt DateTime @default(now())
+
+  @@map("snapshots")
+}
+
+// ── Simulation ───────────────────────────────────
+model Simulation {
+  id        String    @id @default(cuid())
+  projectId String
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type      SimType
+  status    SimStatus @default(PENDING)
+  config    Json?
+  results   Json?
+  metrics   Json?
+  duration  Int?
+  createdAt DateTime  @default(now())
+
+  @@map("simulations")
+}
+
+// ── AI Recommendation ────────────────────────────
+model AIRecommendation {
+  id              String   @id @default(cuid())
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type            String
+  recommendation  String
+  severity        Severity
+  confidenceScore Float
+  dismissed       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@map("ai_recommendations")
+}
+
+// ── Enums ────────────────────────────────────────
+enum UserRole {
+  STUDENT
+  ENGINEER
+  ARCHITECT
+  COMPANY
+  ADMIN
+}
+
+enum ProjectScale {
+  SMALL
+  MEDIUM
+  LARGE
+  CITY_SCALE
+}
+
+enum ProjectStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum NodeType {
+  ISP_ROUTER
+  DATACENTER
+  BACKBONE_SWITCH
+  EDGE_ROUTER
+  OFFICE
+  CCTV
+  TRAFFIC_CONTROLLER
+  IOT_HUB
+  PUBLIC_WIFI
+  WAREHOUSE
+  DRONE_PORT
+}
+
+enum NodeStatus {
+  ACTIVE
+  INACTIVE
+  FAILED
+  WARNING
+}
+
+enum LinkType {
+  FIBER
+  WIRELESS
+  COPPER
+  MPLS
+  VLAN
+}
+
+enum SimType {
+  PACKET_ROUTING
+  CONGESTION
+  FAILURE
+  DDOS
+  TRAFFIC_LOAD
+}
+
+enum SimStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}

@@ -1,0 +1,32 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './prisma/prisma.module';
+import { HealthController } from './health/health.controller';
+
+// Feature modules — uncomment as they are built
+// import { AuthModule } from './modules/auth/auth.module';
+// import { ProjectModule } from './modules/project/project.module';
+// import { NetworkModule } from './modules/network/network.module';
+// import { CostModule } from './modules/cost/cost.module';
+// import { SimulationModule } from './modules/simulation/simulation.module';
+// import { AiModule } from './modules/ai/ai.module';
+// import { NotificationModule } from './modules/notification/notification.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env', '.env.local'],
+    }),
+    PrismaModule,
+    // AuthModule,
+    // ProjectModule,
+    // NetworkModule,
+    // CostModule,
+    // SimulationModule,
+    // AiModule,
+    // NotificationModule,
+  ],
+  controllers: [HealthController],
+})
+export class AppModule {}

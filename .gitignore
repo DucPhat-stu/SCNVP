@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+frontend/dist/
+backend/dist/
+simulation/__pycache__/
+ai-service/__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# IDE & Editor
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker volumes (local)
+pgdata/
+redisdata/
+
+# Testing
+coverage/
+.nyc_output/
+htmlcov/
+
+# Prisma
+backend/prisma/*.db
+backend/prisma/migrations/*/migration_lock.toml
+
+# Logs
+logs/
+*.log
