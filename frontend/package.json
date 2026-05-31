@@ -15,6 +15,7 @@
     "react-router-dom": "^6.22.3",
     "zustand": "^4.5.0",
     "axios": "^1.7.2",
+    "react-hook-form": "^7.51.5",
     "socket.io-client": "^4.7.2",
     "reactflow": "^11.10.4",
     "framer-motion": "^11.0.0",

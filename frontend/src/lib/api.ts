@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { ApiResponse } from '@shared/types';
 
 /**
  * Pre-configured Axios instance for all API calls.
@@ -12,7 +13,6 @@ const api = axios.create({
   timeout: 15000,
 });
 
-// ── Request interceptor: attach JWT ──
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) {
@@ -21,12 +21,16 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// ── Response interceptor: handle 401 + envelope ──
 api.interceptors.response.use(
-  (response) => response.data, // unwrap envelope → return `data` directly
+  (response) => {
+    const body = response.data as ApiResponse<unknown>;
+    if (body && typeof body === 'object' && 'success' in body) {
+      return body.data;
+    }
+    return response.data;
+  },
   async (error) => {
     if (error.response?.status === 401) {
-      // TODO: attempt refresh token, then retry
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       window.location.href = '/login';

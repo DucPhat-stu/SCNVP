@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { HealthController } from './health/health.controller';
+import { AuthModule } from './modules/auth/auth.module';
 
 // Feature modules — uncomment as they are built
 // import { AuthModule } from './modules/auth/auth.module';
@@ -19,7 +20,7 @@ import { HealthController } from './health/health.controller';
       envFilePath: ['.env', '.env.local'],
     }),
     PrismaModule,
-    // AuthModule,
+    AuthModule,
     // ProjectModule,
     // NetworkModule,
     // CostModule,

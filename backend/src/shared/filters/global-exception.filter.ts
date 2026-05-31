@@ -39,6 +39,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         400: 'VALIDATION_ERROR',
         401: 'UNAUTHORIZED',
         403: 'FORBIDDEN',
+        409: 'CONFLICT',
         404: 'NOT_FOUND',
         429: 'RATE_LIMITED',
       };
