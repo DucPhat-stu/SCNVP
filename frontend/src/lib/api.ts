@@ -30,10 +30,19 @@ api.interceptors.response.use(
     return response.data;
   },
   async (error) => {
-    if (error.response?.status === 401) {
+    const requestUrl = String(error.config?.url ?? '');
+    const isAuthAttempt =
+      requestUrl.includes('/auth/login') ||
+      requestUrl.includes('/auth/register');
+
+    if (error.response?.status === 401 && !isAuthAttempt) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      window.location.href = '/login';
+      localStorage.removeItem('user');
+
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error.response?.data || error);
   },

@@ -1,53 +1,111 @@
 import { create } from 'zustand';
 import type { User } from '@shared/types';
 
-interface AuthState {
+const ACCESS_TOKEN_KEY = 'accessToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
+const USER_KEY = 'user';
+
+interface StoredAuth {
   user: User | null;
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
+}
 
-  // Actions
+function emptyAuth(): StoredAuth {
+  return {
+    user: null,
+    accessToken: null,
+    refreshToken: null,
+    isAuthenticated: false,
+  };
+}
+
+function clearStoredAuth() {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+}
+
+function readStoredAuth(): StoredAuth {
+  if (typeof window === 'undefined') {
+    return emptyAuth();
+  }
+
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+  const userJson = localStorage.getItem(USER_KEY);
+
+  if (!accessToken || !userJson) {
+    return emptyAuth();
+  }
+
+  try {
+    const user = JSON.parse(userJson) as User;
+    return { user, accessToken, refreshToken, isAuthenticated: true };
+  } catch {
+    clearStoredAuth();
+    return emptyAuth();
+  }
+}
+
+interface AuthState extends StoredAuth {
+  isLoading: boolean;
+  error: string | null;
+
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearAuth: () => void;
   logout: () => void;
   hydrateFromStorage: () => void;
 }
 
+const storedAuth = readStoredAuth();
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  accessToken: null,
-  refreshToken: null,
-  isAuthenticated: false,
+  ...storedAuth,
+  isLoading: false,
+  error: null,
 
   setAuth: (user, accessToken, refreshToken) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('user', JSON.stringify(user));
-    set({ user, accessToken, refreshToken, isAuthenticated: true });
+    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    set({
+      user,
+      accessToken,
+      refreshToken,
+      isAuthenticated: true,
+      isLoading: false,
+      error: null,
+    });
+  },
+
+  setLoading: (loading) => {
+    if (loading) {
+      set({ isLoading: true, error: null });
+      return;
+    }
+
+    set({ isLoading: false });
+  },
+
+  setError: (error) => {
+    set({ error, isLoading: false });
+  },
+
+  clearAuth: () => {
+    clearStoredAuth();
+    set({ ...emptyAuth(), isLoading: false, error: null });
   },
 
   logout: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
+    clearStoredAuth();
+    set({ ...emptyAuth(), isLoading: false, error: null });
   },
 
   hydrateFromStorage: () => {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-    const userJson = localStorage.getItem('user');
-
-    if (accessToken && userJson) {
-      try {
-        const user = JSON.parse(userJson) as User;
-        set({ user, accessToken, refreshToken, isAuthenticated: true });
-      } catch {
-        // corrupted data — clear
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-      }
-    }
+    set({ ...readStoredAuth(), isLoading: false, error: null });
   },
 }));

@@ -1,7 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthPage } from '@modules/auth/AuthPage';
 import { useAuthStore } from '@shared/store/authStore';
+
+function ProtectedRoute({ children }: { children: ReactNode }) {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+function GuestRoute({ children }: { children: ReactNode }) {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <>{children}</>;
+}
 
 function DashboardPage() {
   return (
@@ -40,10 +60,38 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<AuthPage mode="login" />} />
-        <Route path="/register" element={<AuthPage mode="register" />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/project/:id/canvas" element={<CanvasPage />} />
+        <Route
+          path="/login"
+          element={
+            <GuestRoute>
+              <AuthPage mode="login" />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <GuestRoute>
+              <AuthPage mode="register" />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/project/:id/canvas"
+          element={
+            <ProtectedRoute>
+              <CanvasPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
