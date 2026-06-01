@@ -75,10 +75,10 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-103a: Login page with React Hook Form + validation (1 pt)
-- [ ] TASK-103b: Register page with role selector (1 pt)
-- [ ] TASK-103c: Zustand auth store: token storage, user state (0.5 pt)
-- [ ] TASK-103d: Auth API integration (useAuth hook) (0.5 pt)
+- [x] TASK-103a: Login page with React Hook Form + validation (1 pt)
+- [x] TASK-103b: Register page with role selector (1 pt)
+- [x] TASK-103c: Zustand auth store: token storage, user state (0.5 pt)
+- [x] TASK-103d: Auth API integration (useAuth hook) (0.5 pt)
 
 ---
 
@@ -93,7 +93,7 @@ Tasks:
 
 Tasks:
 - [ ] TASK-104a: Vite + React + TS + Tailwind + shadcn setup (0.5 pt)
-- [ ] TASK-104b: React Router setup: /login, /dashboard, /project/:id/canvas (0.5 pt)
+- [x] TASK-104b: React Router setup: /login, /dashboard, /project/:id/canvas (0.5 pt)
 - [ ] TASK-104c: Main layout: Sidebar + TopBar + Content (1 pt)
 
 ---
