@@ -92,9 +92,9 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-104a: Vite + React + TS + Tailwind + shadcn setup (0.5 pt)
+- [x] TASK-104a: Vite + React + TS + Tailwind + shadcn setup (0.5 pt)
 - [x] TASK-104b: React Router setup: /login, /dashboard, /project/:id/canvas (0.5 pt)
-- [ ] TASK-104c: Main layout: Sidebar + TopBar + Content (1 pt)
+- [x] TASK-104c: Main layout: Sidebar + TopBar + Content (1 pt)
 
 ---
 
@@ -123,10 +123,10 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-106a: Install + configure React Flow (0.5 pt)
-- [ ] TASK-106b: Device palette sidebar with node type icons (1 pt)
-- [ ] TASK-106c: Drag from palette → drop on canvas (1 pt)
-- [ ] TASK-106d: Node move, select, delete keyboard shortcut (0.5 pt)
+- [x] TASK-106a: Install + configure React Flow (0.5 pt)
+- [x] TASK-106b: Device palette sidebar with node type icons (1 pt)
+- [x] TASK-106c: Drag from palette → drop on canvas (1 pt)
+- [x] TASK-106d: Node move, select, delete keyboard shortcut (0.5 pt)
 
 ---
 

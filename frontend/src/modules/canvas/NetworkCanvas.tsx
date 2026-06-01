@@ -177,7 +177,7 @@ function DeviceNode({ data, selected }: NodeProps<CanvasNodeData>) {
       </span>
       <span>
         <strong>{data.label}</strong>
-        <small>{data.nodeType.replaceAll('_', ' ')}</small>
+        <small>{data.nodeType.split('_').join(' ')}</small>
       </span>
     </div>
   );
@@ -370,7 +370,7 @@ function CanvasWorkspace() {
               </span>
               <div>
                 <h3>{selectedNode.data.label}</h3>
-                <p>{selectedNode.data.nodeType.replaceAll('_', ' ')}</p>
+                <p>{selectedNode.data.nodeType.split('_').join(' ')}</p>
               </div>
             </CardHeader>
             <CardContent>
