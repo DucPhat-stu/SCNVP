@@ -1,35 +1,42 @@
-import type { ButtonHTMLAttributes } from 'react';
+import { Button as AntButton, type ButtonProps as AntButtonProps } from 'antd';
 import { cn } from '@lib/utils';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps
+  extends Omit<AntButtonProps, 'type' | 'size' | 'htmlType' | 'variant'> {
   variant?: 'primary' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'icon';
+  type?: 'button' | 'submit' | 'reset';
+  htmlType?: AntButtonProps['htmlType'];
 }
 
 const variants = {
-  primary:
-    'bg-primary-500 text-white shadow-lg shadow-primary-500/20 hover:bg-primary-400',
-  ghost: 'text-gray-300 hover:bg-white/10 hover:text-white',
-  outline:
-    'border border-white/10 bg-white/5 text-gray-100 hover:border-white/20 hover:bg-white/10',
+  primary: 'scnvp-button--primary',
+  ghost: 'scnvp-button--ghost',
+  outline: 'scnvp-button--outline',
 };
 
 const sizes = {
-  sm: 'h-8 px-3 text-xs',
-  md: 'h-10 px-4 text-sm',
-  icon: 'h-9 w-9 p-0',
+  sm: 'scnvp-button--sm',
+  md: 'scnvp-button--md',
+  icon: 'scnvp-button--icon',
 };
 
 export function Button({
   className,
+  htmlType,
   variant = 'primary',
   size = 'md',
+  type = 'button',
   ...props
 }: ButtonProps) {
+  const antType = variant === 'primary' ? 'primary' : 'default';
+
   return (
-    <button
+    <AntButton
+      type={antType}
+      htmlType={htmlType ?? type}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition disabled:pointer-events-none disabled:opacity-50',
+        'scnvp-button',
         variants[variant],
         sizes[size],
         className,

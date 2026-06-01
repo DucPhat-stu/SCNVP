@@ -1,13 +1,12 @@
 import type { HTMLAttributes } from 'react';
+import { Card as AntCard, type CardProps as AntCardProps } from 'antd';
 import { cn } from '@lib/utils';
 
-export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function Card({ className, ...props }: AntCardProps) {
   return (
-    <div
-      className={cn(
-        'rounded-lg border border-white/10 bg-white/[0.04] shadow-sm',
-        className,
-      )}
+    <AntCard
+      bordered={false}
+      className={cn('scnvp-card', className)}
       {...props}
     />
   );
