@@ -38,11 +38,11 @@
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-101a: Create User Prisma model + migration (0.5 pt)
-- [ ] TASK-101b: `POST /api/v1/auth/register` endpoint with DTO validation (1 pt)
-- [ ] TASK-101c: Bcrypt password hashing (0.5 pt)
-- [ ] TASK-101d: JWT token generation + response (0.5 pt)
-- [ ] TASK-101e: Unit test: AuthService.register (0.5 pt)
+- [x] TASK-101a: Create User Prisma model + migration (0.5 pt)
+- [x] TASK-101b: `POST /api/v1/auth/register` endpoint with DTO validation (1 pt)
+- [x] TASK-101c: Bcrypt password hashing (0.5 pt)
+- [x] TASK-101d: JWT token generation + response (0.5 pt)
+- [x] TASK-101e: Unit test: AuthService.register (0.5 pt)
 
 **Acceptance Criteria:**
 - Duplicate email returns 409
@@ -60,10 +60,10 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-102a: `POST /api/v1/auth/login` endpoint (0.5 pt)
-- [ ] TASK-102b: Passport Local strategy (0.5 pt)
-- [ ] TASK-102c: JWT guard setup (0.5 pt)
-- [ ] TASK-102d: Integration test: login flow (0.5 pt)
+- [x] TASK-102a: `POST /api/v1/auth/login` endpoint (0.5 pt)
+- [x] TASK-102b: Passport Local strategy (0.5 pt)
+- [x] TASK-102c: JWT guard setup (0.5 pt)
+- [x] TASK-102d: Integration test: login flow (0.5 pt)
 
 ---
 
@@ -106,10 +106,10 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-105a: Docker Compose: postgres, redis, api services (0.5 pt)
-- [ ] TASK-105b: NestJS init + ConfigService + env validation (0.5 pt)
-- [ ] TASK-105c: Prisma setup + first migration (0.5 pt)
-- [ ] TASK-105d: Health check endpoint + Nginx config (0.5 pt)
+- [x] TASK-105a: Docker Compose: postgres, redis, api services (0.5 pt)
+- [x] TASK-105b: NestJS init + ConfigService + env validation (0.5 pt)
+- [x] TASK-105c: Prisma setup + first migration (0.5 pt)
+- [x] TASK-105d: Health check endpoint + Nginx config (0.5 pt)
 
 ---
 
@@ -145,10 +145,10 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-201a: Project Prisma model + migration (0.5 pt)
-- [ ] TASK-201b: ProjectService: create, findAll, findOne, update, delete (1 pt)
-- [ ] TASK-201c: ProjectController with ownership validation (1 pt)
-- [ ] TASK-201d: Integration tests: all CRUD endpoints (0.5 pt)
+- [x] TASK-201a: Project Prisma model + migration (0.5 pt)
+- [x] TASK-201b: ProjectService: create, findAll, findOne, update, delete (1 pt)
+- [x] TASK-201c: ProjectController with ownership validation (1 pt)
+- [x] TASK-201d: Integration tests: all CRUD endpoints (0.5 pt)
 
 ---
 
@@ -160,11 +160,11 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-202a: NetworkNode + Connection Prisma models (0.5 pt)
-- [ ] TASK-202b: NetworkService: bulk upsert nodes + connections (1.5 pt)
-- [ ] TASK-202c: GET /network endpoint (0.5 pt)
-- [ ] TASK-202d: PUT /network endpoint (bulk save) (1 pt)
-- [ ] TASK-202e: Node CRUD endpoints (create, update, delete) (0.5 pt)
+- [x] TASK-202a: NetworkNode + Connection Prisma models (0.5 pt)
+- [x] TASK-202b: NetworkService: bulk upsert nodes + connections (1.5 pt)
+- [x] TASK-202c: GET /network endpoint (0.5 pt)
+- [x] TASK-202d: PUT /network endpoint (bulk save) (1 pt)
+- [x] TASK-202e: Node CRUD endpoints (create, update, delete) (0.5 pt)
 
 ---
 
@@ -176,9 +176,9 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-203a: Dashboard page: project cards list (1 pt)
-- [ ] TASK-203b: Create project modal (1 pt)
-- [ ] TASK-203c: API integration: project list + create + delete (1 pt)
+- [x] TASK-203a: Dashboard page: project cards list (1 pt)
+- [x] TASK-203b: Create project modal (1 pt)
+- [x] TASK-203c: API integration: project list + create + delete (1 pt)
 
 ---
 
@@ -190,10 +190,10 @@ Tasks:
 **Priority:** P0
 
 Tasks:
-- [ ] TASK-204a: API integration: load topology on canvas open (1 pt)
-- [ ] TASK-204b: Canvas state → API save on Ctrl+S (0.5 pt)
-- [ ] TASK-204c: Auto-save debounce (30s) with status indicator (1 pt)
-- [ ] TASK-204d: Undo/redo with Zustand command pattern (1.5 pt)
+- [x] TASK-204a: API integration: load topology on canvas open (1 pt)
+- [x] TASK-204b: Canvas state → API save on Ctrl+S (0.5 pt)
+- [x] TASK-204c: Auto-save debounce (30s) with status indicator (1 pt)
+- [x] TASK-204d: Undo/redo with Zustand command pattern (1.5 pt)
 
 ---
 

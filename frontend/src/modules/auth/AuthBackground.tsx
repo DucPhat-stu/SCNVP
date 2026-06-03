@@ -1,49 +1,53 @@
-interface Particle {
-  id: number;
-  size: number;
-  x: number;
-  y: number;
-  duration: number;
-  delay: number;
-  opacity: number;
-}
-
-const PARTICLES: Particle[] = Array.from({ length: 18 }, (_, index) => ({
-  id: index,
-  size: 2 + (index % 4),
-  x: (index * 17 + 11) % 100,
-  y: (index * 29 + 7) % 100,
-  duration: 18 + (index % 7) * 3,
-  delay: -1 * ((index * 5) % 18),
-  opacity: 0.16 + (index % 5) * 0.04,
-}));
-
 export function AuthBackground() {
   return (
     <div className="auth-bg" aria-hidden="true">
       <div className="auth-bg__grid" />
-      <div className="auth-bg__sweep" />
-      <div className="auth-bg__map">
-        <span className="auth-bg__route auth-bg__route--one" />
-        <span className="auth-bg__route auth-bg__route--two" />
-        <span className="auth-bg__route auth-bg__route--three" />
+      <div className="auth-bg__wave" />
+      <div className="auth-city">
+        <div className="auth-city__block auth-city__block--one">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="auth-city__block auth-city__block--two">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="auth-city__block auth-city__block--three">
+          <span />
+          <span />
+        </div>
+        <div className="auth-city__block auth-city__block--four">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="auth-city__block auth-city__block--five">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="auth-city__tower auth-city__tower--one" />
+        <div className="auth-city__tower auth-city__tower--two" />
+        <div className="auth-city__tower auth-city__tower--three" />
+        <div className="auth-city__road auth-city__road--one">
+          <span className="auth-city__car auth-city__car--one" />
+        </div>
+        <div className="auth-city__road auth-city__road--two">
+          <span className="auth-city__car auth-city__car--two" />
+        </div>
+        <div className="auth-city__road auth-city__road--three">
+          <span className="auth-city__car auth-city__car--three" />
+        </div>
+        <div className="auth-city__road auth-city__road--four">
+          <span className="auth-city__car auth-city__car--four" />
+        </div>
+        <span className="auth-city__signal auth-city__signal--one" />
+        <span className="auth-city__signal auth-city__signal--two" />
       </div>
-
-      {PARTICLES.map((particle) => (
-        <span
-          key={particle.id}
-          className="auth-bg__particle"
-          style={{
-            width: particle.size,
-            height: particle.size,
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            animationDuration: `${particle.duration}s`,
-            animationDelay: `${particle.delay}s`,
-            opacity: particle.opacity,
-          }}
-        />
-      ))}
     </div>
   );
 }

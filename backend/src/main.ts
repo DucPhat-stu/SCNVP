@@ -17,7 +17,9 @@ async function bootstrap() {
   // ── Security ──────────────────────────────────
   app.use(helmet());
   app.enableCors({
-    origin: ['http://localhost:3000'], // TODO: add production origin
+    origin: config.get<string>('CORS_ORIGIN')?.split(',') ?? [
+      'http://localhost:3000',
+    ],
     credentials: true,
   });
 

@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+} from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -119,11 +125,122 @@ function Spinner() {
   );
 }
 
+function CitySignalLogo() {
+  return (
+    <svg viewBox="0 0 64 64" fill="none" width="36" height="36">
+      <path
+        d="M10 50V28l12-8 10 7 12-12 10 8v27"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18 50V34h8v16M36 50V33h8v17"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+      <path d="M7 50h50" stroke="currentColor" strokeWidth="3" />
+      <circle cx="32" cy="22" r="4" fill="currentColor" />
+      <path
+        d="M24 15a12 12 0 0 1 16 0M18 9a21 21 0 0 1 28 0"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function AICodeAnimation() {
+  return (
+    <div className="auth-visual auth-visual--ai-code" aria-hidden="true">
+      <div className="ai-code__chip">
+        <span />
+        <span />
+      </div>
+      <div className="ai-code__window">
+        <div className="ai-code__toolbar">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="ai-code__lines">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+      <div className="ai-code__cursor" />
+    </div>
+  );
+}
+
+function DeveloperCodingAnimation() {
+  return (
+    <div className="auth-visual auth-visual--programmer" aria-hidden="true">
+      <div className="programmer">
+        <div className="programmer__head">
+          <span className="programmer__hair" />
+        </div>
+        <div className="programmer__body" />
+        <div className="programmer__arm programmer__arm--left" />
+        <div className="programmer__arm programmer__arm--right" />
+      </div>
+      <div className="programmer-screen">
+        <div className="programmer-screen__toolbar">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="programmer-screen__code">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+      <div className="programmer-keyboard">
+        {Array.from({ length: 12 }, (_, index) => (
+          <span key={index} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SatelliteNetworkAnimation() {
+  return (
+    <div className="auth-visual auth-visual--satellite" aria-hidden="true">
+      <div className="earth">
+        <span className="earth__continent earth__continent--one" />
+        <span className="earth__continent earth__continent--two" />
+        <span className="earth__continent earth__continent--three" />
+      </div>
+      <div className="satellite">
+        <span className="satellite__body" />
+        <span className="satellite__panel satellite__panel--left" />
+        <span className="satellite__panel satellite__panel--right" />
+      </div>
+      <span className="satellite-beam satellite-beam--one" />
+      <span className="satellite-beam satellite-beam--two" />
+      <span className="satellite-beam satellite-beam--three" />
+      <span className="orbit-ring orbit-ring--one" />
+      <span className="orbit-ring orbit-ring--two" />
+    </div>
+  );
+}
+
 export function AuthPage({ mode }: AuthPageProps) {
   const navigate = useNavigate();
   const { login, register: registerUser, isLoading, error } = useAuth();
   const setError = useAuthStore((state) => state.setError);
   const [showPassword, setShowPassword] = useState(false);
+  const pageRef = useRef<HTMLElement | null>(null);
   const isRegister = mode === 'register';
   const direction = isRegister ? 1 : -1;
 
@@ -151,6 +268,14 @@ export function AuthPage({ mode }: AuthPageProps) {
     setError(null);
     setShowPassword(false);
   }, [mode, setError]);
+
+  const handlePointerMove = (event: MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    event.currentTarget.style.setProperty('--pointer-x', `${x}%`);
+    event.currentTarget.style.setProperty('--pointer-y', `${y}%`);
+  };
 
   const onSubmit = async (values: AuthFormValues) => {
     if (isRegister) {
@@ -180,34 +305,18 @@ export function AuthPage({ mode }: AuthPageProps) {
   };
 
   return (
-    <main className="auth-page">
+    <main
+      ref={pageRef}
+      className="auth-page"
+      onMouseMove={handlePointerMove}
+    >
       <AuthBackground />
 
       <div className="auth-layout">
         <section className="auth-hero">
           <div className="auth-hero__brand">
             <div className="auth-hero__logo">
-              <svg viewBox="0 0 32 32" fill="none" width="24" height="24">
-                <path
-                  d="M16 3 5 8.5v9L16 23l11-5.5v-9L16 3Z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-                <circle cx="16" cy="12" r="3" fill="currentColor" />
-                <circle cx="8.5" cy="17" r="1.8" fill="currentColor" />
-                <circle cx="23.5" cy="17" r="1.8" fill="currentColor" />
-                <path
-                  d="M16 12 8.5 17M16 12l7.5 5"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="auth-hero__title-badge">SCNVP</p>
-              <p className="auth-hero__title-sub">
-                Smart City Network Platform
-              </p>
+              <CitySignalLogo />
             </div>
           </div>
 
@@ -222,61 +331,14 @@ export function AuthPage({ mode }: AuthPageProps) {
           </div>
 
           <div className="auth-hero__features">
-            <div className="auth-hero__feature">
-              <span className="auth-hero__feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-                  <path
-                    d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <div>
-                <p className="auth-hero__feature-title">AI-assisted design</p>
-                <p className="auth-hero__feature-desc">
-                  Generate topology drafts from planning intent.
-                </p>
-              </div>
+            <div className="auth-hero__feature auth-hero__feature--visual">
+              <AICodeAnimation />
             </div>
-            <div className="auth-hero__feature">
-              <span className="auth-hero__feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-                  <path
-                    d="M4 18h16M7 15l3-4 3 2 4-7"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <div>
-                <p className="auth-hero__feature-title">Simulation ready</p>
-                <p className="auth-hero__feature-desc">
-                  Prepare traffic, congestion, and failure analysis.
-                </p>
-              </div>
+            <div className="auth-hero__feature auth-hero__feature--visual">
+              <SatelliteNetworkAnimation />
             </div>
-            <div className="auth-hero__feature">
-              <span className="auth-hero__feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-                  <path
-                    d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6v-9Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <div>
-                <p className="auth-hero__feature-title">Role-based access</p>
-                <p className="auth-hero__feature-desc">
-                  Keep student, engineer, architect, and company flows scoped.
-                </p>
-              </div>
+            <div className="auth-hero__feature auth-hero__feature--visual">
+              <DeveloperCodingAnimation />
             </div>
           </div>
         </section>

@@ -7,6 +7,9 @@ import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AuthService } from './auth.service';
 
+type BcryptHashMock = jest.Mock<Promise<string>, [string, number]>;
+type BcryptCompareMock = jest.Mock<Promise<boolean>, [string, string]>;
+
 describe('AuthService', () => {
   const prisma = {
     user: {
@@ -56,7 +59,8 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('hashes the password with 12 rounds and returns token pair', async () => {
-      const hashSpy = jest.spyOn(bcrypt, 'hash').mockResolvedValue('hash');
+      const hashSpy = jest.spyOn(bcrypt, 'hash') as unknown as BcryptHashMock;
+      hashSpy.mockResolvedValue('hash');
       prisma.user.findUnique.mockResolvedValue(null);
       prisma.user.create.mockResolvedValue(user);
 
@@ -104,7 +108,11 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('returns tokens for valid credentials', async () => {
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+      const compareSpy = jest.spyOn(
+        bcrypt,
+        'compare',
+      ) as unknown as BcryptCompareMock;
+      compareSpy.mockResolvedValue(true);
       prisma.user.findUnique.mockResolvedValue(user);
 
       const result = await service.login({
@@ -117,7 +125,11 @@ describe('AuthService', () => {
     });
 
     it('throws UnauthorizedException for wrong password', async () => {
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
+      const compareSpy = jest.spyOn(
+        bcrypt,
+        'compare',
+      ) as unknown as BcryptCompareMock;
+      compareSpy.mockResolvedValue(false);
       prisma.user.findUnique.mockResolvedValue(user);
 
       await expect(

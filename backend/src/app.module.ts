@@ -3,6 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { HealthController } from './health/health.controller';
 import { AuthModule } from './modules/auth/auth.module';
+import { validateEnv } from './config/env.validation';
+import { ProjectModule } from './modules/project/project.module';
+import { NetworkModule } from './modules/network/network.module';
 
 // Feature modules — uncomment as they are built
 // import { AuthModule } from './modules/auth/auth.module';
@@ -18,11 +21,12 @@ import { AuthModule } from './modules/auth/auth.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env', '.env.local'],
+      validate: validateEnv,
     }),
     PrismaModule,
     AuthModule,
-    // ProjectModule,
-    // NetworkModule,
+    ProjectModule,
+    NetworkModule,
     // CostModule,
     // SimulationModule,
     // AiModule,
